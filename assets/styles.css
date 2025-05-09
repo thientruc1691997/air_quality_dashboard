@@ -1,0 +1,54 @@
+.dashboard-container {
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    position: fixed;
+    width: 25%;
+}
+
+.sidebar-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-text {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 1.5rem 0;
+}
+
+.sidebar-list {
+    padding-left: 1rem;
+}
+
+.sidebar-item {
+    margin-bottom: 0.5rem;
+}
+
+.section-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.control-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.plot-container {
+    border-radius: 8px;
+    background-color: white;
+    padding: 10px;
+    margin-top: 1rem;
+}

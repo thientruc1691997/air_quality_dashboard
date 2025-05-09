@@ -1,0 +1,159 @@
+Template: https://airindex.eea.europa.eu/AQI/index.html
+Library: https://dash.plotly.com/background-callbacks
+Nested dashboard: https://medium.com/plotly/how-to-create-a-beautiful-interactive-dashboard-layout-in-python-with-plotly-dash-a45c57bb2f3c
+
+*Some main points:
+- Each year has different variable 
+- For each station, for a given date + hour: 1 measurement. 
+- 24 stations, but in dataset year{} have many station that different from Madrid station, I think that some station has been closed (ex, in 2001
+just has 12 station can map with file stations in Madrid):
+id:
+28079001
+28079003
+28079006
+28079007
+28079009
+28079012
+28079014
+28079015
+28079019
+28079021
+28079022
+28079023
+28079025
+28079099
+
+*Data Exploration:  
+**Step 1: merge station name and summary % of station can be mapped in each year (year|% station mapping)
+
+    Year  TotalStations  MappedStations  PercentMapped
+0   2001             26              12          46.15
+1   2002             26              12          46.15
+2   2003             28              13          46.43
+3   2004             28              13          46.43
+4   2005             28              13          46.43
+5   2006             27              12          44.44
+6   2007             26              11          42.31
+7   2008             26              11          42.31
+8   2009             31              17          54.84
+9   2010             26              23          88.46
+10  2011             24              24         100.00
+11  2012             24              24         100.00
+12  2013             24              24         100.00
+13  2014             24              24         100.00
+14  2015             24              24         100.00
+15  2016             24              24         100.00
+16  2017             24              24         100.00
+17  2018             24              24         100.00
+
+***Remarks: 
+- Before 2010 (2001 - 2010), nearly half the stations in the measurement data do not appear in the station metadata -> Likely older stations, discontinued.
+- After 2010 (2011 - 2018), the station metadata fully matches the measurement data.
+
+***Suggestion:
+- For 2001–2009, exclude unmapped stations from spatial visualizations (but keep in time-series analyses).
+- For 2010–2018, build full maps, and station-based comparisons.
+
+**Step 2: count number of pollutants in each year, find the common pollutants from 2001-2018
+
+Result: 
+
+=== SUMMARY TABLE ===
+      NumRows  NumVars
+Year                  
+2001   217872       16
+2002   217296       16
+2003   243984       16
+2004   245496       17
+2005   237000       17
+2006   230568       17
+2007   225120       17
+2008   226392       17
+2009   215688       17
+2010   209448       17
+2011   209928       14
+2012   210720       14
+2013   209880       14
+2014   210024       14
+2015   210096       14
+2016   209496       14
+2017   210120       16
+2018    69096       16
+
+Pollutants per year:
+2001: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, NOx, BEN, NMHC, OXY, O_3
+2002: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, NOx, BEN, NMHC, OXY, O_3
+2003: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, NOx, BEN, NMHC, OXY, O_3
+2004: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2005: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2006: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2007: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2008: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2009: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2010: NO_2, CO, SO_2, TOL, EBE, PM10, MXY, TCH, PXY, PM25, NOx, BEN, NMHC, OXY, O_3
+2011: NO, NO_2, CO, SO_2, TOL, EBE, PM10, TCH, BEN, NMHC, PM25, O_3
+2012: NO, NO_2, CO, SO_2, TOL, EBE, PM10, TCH, BEN, NMHC, PM25, O_3
+2013: NO, NO_2, CO, SO_2, TOL, EBE, PM10, TCH, BEN, NMHC, PM25, O_3
+2014: NO, NO_2, CO, SO_2, TOL, EBE, PM10, TCH, BEN, NMHC, PM25, O_3
+2015: NO, NO_2, CO, SO_2, TOL, EBE, PM10, TCH, BEN, NMHC, PM25, O_3
+2016: NO, NO_2, CO, SO_2, TOL, EBE, PM10, TCH, BEN, NMHC, PM25, O_3
+2017: NO, NO_2, CH4, CO, SO_2, TOL, EBE, PM10, TCH, NOx, BEN, NMHC, PM25, O_3
+2018: NO, NO_2, CH4, CO, SO_2, TOL, EBE, PM10, TCH, NOx, BEN, NMHC, PM25, O_3
+
+-> Common pollutants across ALL years: BEN, CO, EBE, NMHC, NO_2, O_3, PM10, SO_2, TCH, TOL
+
+*** Suggestion:
+- For longitudinal (2001–2018) comparisons, just use the 10 common pollutants.
+- For analyze subsets (only one year): can include all pollutant. 
+- When merging dataset, add NaN where pollutants are missing in earlier years.
+
+Note: conver CO, 
+*Task: 
+1. How has pollution in Madrid evolved between 2001 and 2018?
+- Use the common pollutants across all years.
+- Aggregate by year → compute average annual concentration (across all stations).
+Plot:
+ → Line chart: pollutant (y-axis) vs. year (x-axis)
+ → One line per pollutant.
+
+2. Which are the areas of Madrid where pollution is highest / lowest in 2018?
+- Use only 2018 data.
+- Aggregate by station → average pollutant concentrations.
+Rank stations:
+ → Top 5 highest (worst)
+ → Bottom 5 lowest (best)
+Map visualization:
+ → Plot stations on a spatial map (Mapbox), color by pollution level.
+
+3. Which are the areas of Madrid where pollution has improved / worsened more
+between 2008 and 2018?
+
+Compare average pollutant concentrations by station:
+ → Compute station-level mean for 2008
+ → Compute station-level mean for 2018
+
+Calculate difference or % change:
+ → change = 2018_avg - 2008_avg
+
+Identify:
+ → Stations with largest improvement (biggest decrease)
+ → Stations with largest worsening (biggest increase)
+
+Map this spatially. Optional: Provide results both per pollutant and overall average.
+
+4. How have the different measurements of pollution evolved between 2008 and 2018?
+Focus on pollutants available across these years (more variables available post-2008).
+
+Aggregate annually:
+ → Compute mean concentration per pollutant per year (2008–2018).
+
+Plot:
+ → Line charts: year (x-axis), concentration (y-axis), one line per pollutant.
+
+***callback: 
+Người dùng kéo slider hoặc chọn dropdown -->
+Dash phát hiện Input thay đổi -->
+Dash gọi hàm update_line_chart() -->
+Hàm xử lý dữ liệu và tạo figure -->
+Dash nhận figure và gán vào pollution-line-plot.figure -->
+Giao diện hiển thị biểu đồ mới.
