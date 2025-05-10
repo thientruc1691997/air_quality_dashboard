@@ -1,9 +1,9 @@
 # flake8: noqa
 
-from dash import Dash
+from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
-from layout import create_layout
-from callbacks import register_callbacks
+from layout import create_layout, create_mainpage
+from callbacks import register_callbacks, register_page_callbacks
 from data_loader import load_pollution_data, load_station_metadata
 import pandas as pd
 import os
@@ -29,14 +29,19 @@ app = Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1"}
-    ]
+    ],
+    suppress_callback_exceptions=True
 )
 # Choose which layout to load (main line chart or station map)
 # Comment/uncomment as needed
 
-app.layout = create_layout(app, combined_df, stations_df)
-
+# Set the basic layout with navigation container
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')  # This will show either main or detail page
+])
 # Register callbacks
+register_page_callbacks(app, combined_df, stations_df)
 register_callbacks(app, combined_df)
 
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ def create_station_map_figure_with_custom_hover(df, stations_df):
                 pollutant_lines += f"{pollutant:<8}: {row[pollutant]} μg/m³<br>"
 
         hover_text = (
-            f"<b>{row['name']}</b><br>"
+            f"<b>Station:</b> {row['name']}</b><br>"
             f"<b>Overall:</b> {row['Overall_Avg_Rounded']} μg/m³<br><br>"
             f"<b>Pollutant Levels:</b><br>{pollutant_lines}"
         )
@@ -54,7 +54,7 @@ def create_station_map_figure_with_custom_hover(df, stations_df):
         hoverlabel=dict(
             bgcolor="white",
             font_size=14,
-            font_family="Courier New, monospace"
+            font_family="Arial, sans-serif"
         )
     )
 

@@ -8,6 +8,7 @@ from dash import dcc, html
 from data_preprocess import compute_station_averages
 from plot_station_map import create_station_map_figure_with_custom_hover
 from plot_change_map import create_station_change_bar_figure
+from main_page_plot import create_pollutant_barchart, create_main_map
 
 
 def create_layout(app, combined_df, stations_df):
@@ -20,7 +21,7 @@ def create_layout(app, combined_df, stations_df):
         children=[
             dbc.Row(
                 [
-                    # Left sidebar column
+                    # Left sidebar
                     dbc.Col(
                         [
                             html.Div(
@@ -41,9 +42,18 @@ def create_layout(app, combined_df, stations_df):
                                     html.P("Explore the sections on the right:", className='sidebar-text'),
                                     html.Ul(
                                         [
-                                            html.Li("Annual pollution trends (2001–2018)", className='sidebar-item'),
-                                            html.Li("Station-wise pollution map for 2018", className='sidebar-item'),
-                                            html.Li("Station pollution change between 2008 and 2018", className='sidebar-item')
+                                            html.Li(
+                                                html.A("Annual pollution trends (2001–2018)", href="#section-1", className='sidebar-link'),
+                                                className='sidebar-item'
+                                            ),
+                                            html.Li(
+                                                html.A("Station-wise pollution map for 2018", href="#section-2", className='sidebar-link'),
+                                                className='sidebar-item'
+                                            ),
+                                            html.Li(
+                                                html.A("Station pollution change between 2008 and 2018", href="#section-3", className='sidebar-link'),
+                                                className='sidebar-item'
+                                            )
                                         ],
                                         className='sidebar-list'
                                     )
@@ -52,7 +62,7 @@ def create_layout(app, combined_df, stations_df):
                                 style={
                                     "height": "100vh",
                                     "padding": "2rem",
-                                    "backgroundColor": "#1f2c56",
+                                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
                                     "color": "white",
                                     "overflowY": "auto"
                                 }
@@ -67,7 +77,8 @@ def create_layout(app, combined_df, stations_df):
                         [
                             html.Div(
                                 [
-                                    # Section 1: Annual Pollution Trends
+                                    # Section 1
+                                    html.Div(id='section-1'),  # anchor
                                     dbc.Card(
                                         [
                                             dbc.CardHeader(html.H3('1. Annual Pollution Trends (2001–2018)', className='section-title')),
@@ -97,8 +108,9 @@ def create_layout(app, combined_df, stations_df):
                                                                     dcc.Dropdown(
                                                                         id='pollutant-dropdown',
                                                                         options=[{'label': p, 'value': p} for p in common_pollutants],
-                                                                        value=common_pollutants,
+                                                                        value=[],
                                                                         multi=True,
+                                                                        placeholder = "select pollutants to display",
                                                                         className='pollutant-dropdown'
                                                                     )
                                                                 ],
@@ -108,7 +120,7 @@ def create_layout(app, combined_df, stations_df):
                                                     ),
                                                     dcc.Graph(
                                                         id='pollution-line-plot',
-                                                        style={'height': '400px'},
+                                                        style={'height': '500px'},
                                                         className='plot-container'
                                                     )
                                                 ],
@@ -118,7 +130,8 @@ def create_layout(app, combined_df, stations_df):
                                         className='mb-4 section-card'
                                     ),
 
-                                    # Section 2: Station-wise Pollution Map
+                                    # Section 2
+                                    html.Div(id='section-2'),
                                     dbc.Card(
                                         [
                                             dbc.CardHeader(html.H3('2. Station-wise Pollution Map (2018)', className='section-title')),
@@ -137,7 +150,8 @@ def create_layout(app, combined_df, stations_df):
                                         className='mb-4 section-card'
                                     ),
 
-                                    # Section 3: Station Change
+                                    # Section 3
+                                    html.Div(id='section-3'),
                                     dbc.Card(
                                         [
                                             dbc.CardHeader(html.H3('3. Station Change Between 2008 and 2018', className='section-title')),
@@ -160,7 +174,8 @@ def create_layout(app, combined_df, stations_df):
                                     'height': '100vh',
                                     'overflowY': 'auto',
                                     'padding': '2rem',
-                                    'backgroundColor': '#f8f9fa'
+                                    'backgroundColor': '#f8f9fa',
+                                    'scrollBehavior': 'smooth'  # enables smooth scrolling!
                                 }
                             )
                         ],
@@ -169,6 +184,136 @@ def create_layout(app, combined_df, stations_df):
                     )
                 ],
                 style={'margin': '0', 'height': '100vh'}
+            )
+        ]
+    )
+
+def create_mainpage(app, combined_df, stations_df):
+    # Get latest update time
+    latest_date = pd.to_datetime(combined_df['date']).max()
+    latest_str = latest_date.strftime('%d/%m/%Y %H:%M')
+    
+    # Create figures
+    bar_fig = create_pollutant_barchart(combined_df)
+    map_fig = create_main_map(combined_df, stations_df)
+
+    return dbc.Container(
+        fluid=True,
+        style={'backgroundColor': '#f8f9fa', 'padding': '0', 'margin': '0', 'height': '100vh', 'overflow': 'hidden'},
+        children=[
+            # Header
+            dbc.Navbar(
+                [
+                    dbc.Container(
+                            html.H1("Welcome to Group 4 Dashboard", 
+                                style={
+                                    'color': '#ffffff',  # Dark text for light background
+                                    'margin': '0',
+                                    'textShadow': '0 1px 1px rgba(255,255,255,0.5)'
+                                    }),
+                        fluid=True,
+                        style={'display': 'flex', 'alignItems': 'center'}
+                    )
+                ],
+                style={
+                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                    'boxShadow': '0 2px 10px rgba(0,0,0,0.1)',
+                    'padding': '15px 0'
+                },
+                dark=True,  # Must set to False for light background
+                className="mb-4"  # Added margin bottom
+            ),
+            
+            # Update time
+            dbc.Row([
+                dbc.Col(
+                    html.P(f"Updated: {latest_str}", 
+                          className="text-muted mb-2 mt-2",
+                          style={'paddingLeft': '1rem'}),
+                    width=12
+                ),
+                
+                dbc.Col(
+                    dbc.Button("Explore Detailed Analysis",
+                        href="/detail",
+                            color="#0b559e",  # Changed to primary for better contrast
+                            className="ms-auto")
+                    )
+                ]           
+            ),       
+            # Main content
+            dbc.Row([
+                # Left column - Bar chart (wider)
+                dbc.Col(
+                    [
+                        dbc.Card(
+                            [
+                                dbc.CardHeader(
+                                    html.H4("Average Pollutant Levels in 2018", 
+                                           className="mb-0"),
+                                style = {
+                                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                                    'color': 'white'
+                                }                                    
+                                ),
+
+                                dbc.CardBody(
+                                    [
+                                        dcc.Graph(
+                                            figure=bar_fig,
+                                            config={'displayModeBar': False},
+                                            style={'height': '500px'}
+                                        ),
+                                    ]
+                                )
+                            ],
+                            className="h-100",
+                            style={
+                                'background': 'linear-gradient(135deg, #1754911a 0%, #0d355f1a 100%)'
+                            }
+                        )
+                    ],
+                    md=6,  # Wider column for chart
+                    style={'paddingRight': '10px'}
+                ),
+                
+                # Right column - Map (narrower)
+                dbc.Col(
+                    [
+                        dbc.Card(
+                            [
+                                dbc.CardHeader(
+                                    html.H4("Station Pollution Map 2018", 
+                                           className="mb-0"),
+                                style = {
+                                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                                    'color': 'white'
+                                }                                   
+                                ),
+                                dbc.CardBody(
+                                    [
+                                        dcc.Graph(
+                                            figure=map_fig,
+                                            config={'displayModeBar': False},
+                                            style={'height': '500px'}
+                                        )
+                                    ]
+                                )
+                            ],
+                            className="h-100",
+                            style={
+                                'background': 'linear-gradient(135deg, #1754911a 0%, #0d355f1a 100%)'
+                            }                                                      
+                        )
+                    ],
+                    md=6,
+                    style = {
+                        'paddingBottom':'0px'
+                    }
+                )
+            ], 
+            className="g-3 mx-0",  # Add gutter spacing
+            style={'height': 'calc(50vh - 50px)', 'margin': '0'}
             )
         ]
     )

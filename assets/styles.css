@@ -26,13 +26,27 @@
     padding-left: 1rem;
 }
 
+.sidebar-link {
+    color: #d1fff4;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sidebar-link:hover {
+    text-decoration: underline;
+    color: #d1fff4;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 .sidebar-item {
     margin-bottom: 0.5rem;
 }
 
 .section-card {
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px #0000001a;
 }
 
 .section-title {
