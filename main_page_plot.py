@@ -106,9 +106,9 @@ def create_pollutant_barchart(df):
      # Các giá trị % Change - TÔ XANH nếu giảm mạnh (càng âm càng tốt)
     for _, row in merged.iterrows():
         if row['change_pct'] < -25:  # Giảm >25% => Tốt, tô xanh đậm
-            text = f"<span style='color:HoneyDew  ; font-weight:bold'>↓ {row['change_pct']}%</span>"
+            text = f"<span style='color:Cerulean; font-weight:bold'>↓ {row['change_pct']}%</span>"
         elif row['change_pct'] < 0:  # Giảm nhẹ (<25%) => Tô xanh nhạt
-            text = f"<span style='color:Azure  '>{row['change_pct']}%</span>"
+            text = f"<span style='color:sky'>{row['change_pct']}%</span>"
         else:  # Tăng (giá trị dương) => Tô đỏ
             text = f"<span style='color:red'>{row['change_pct']}%</span>"
     
@@ -129,7 +129,7 @@ def create_pollutant_barchart(df):
         margin=dict(l=50, r=170, t=40, b=40),
         plot_bgcolor='rgba(0,0,0,0)',  # Transparent plot area
         paper_bgcolor='rgba(0,0,0,0)',
-        font=dict(color='white', family='Tahoma'),
+        font=dict(color='#1034A6', family='Tahoma'),
         hovermode="closest",
         hoverlabel=dict(
             bgcolor="white",
@@ -139,15 +139,15 @@ def create_pollutant_barchart(df):
         yaxis=dict(
             showgrid=False,  # Add this to remove y-axis grid lines
             showline=True,  # Keep y-axis line visible
-            linecolor='white',  # Set y-axis line color
-            tickfont=dict(size=12,color='white'),
+            linecolor='#1034A6',  # Set y-axis line color
+            tickfont=dict(size=12,color='#1034A6'),
             tickmode='array',
             tickvals=list(range(len(merged)))
         ),
         xaxis=dict(
             showgrid=False,  # Add this to remove x-axis grid lines
             showline=True,  # Keep x-axis line visible
-            linecolor='white',  # Set x-axis line color
+            linecolor='#1034A6',  # Set x-axis line color
             range=[0, merged['log_value'].max()]
         )
     )
@@ -155,9 +155,9 @@ def create_pollutant_barchart(df):
     # Customize hover template
     fig.update_traces(
         marker=dict(
-            line=dict(width=1, color='white'),
-            opacity=0.5,
-            color='white'  # White bars
+            line=dict(width=1, color='#1034A6'),
+            opacity=0.3,
+            color='#1034A6'  # White bars
         ),
         hovertemplate="%{customdata[0]}",
         hoverlabel=dict(

@@ -227,7 +227,7 @@ def create_mainpage(app, combined_df, stations_df):
                         [
                             html.H1("Welcome to Group 4 Dashboard", 
                                 style={
-                                    'color': '#175492',  # Dark text for light background
+                                    'color': 'white',  # Dark text for light background
                                     'margin': '10px',
                                     'textShadow': '0 1px 1px rgba(255,255,255,0.5)',
                                     'font-family': 'Tahoma'
@@ -258,7 +258,7 @@ def create_mainpage(app, combined_df, stations_df):
                     )
                 ],
                 style={
-                    'background': 'ffffff', #linear-gradient(135deg, #175491 0%, #0d355f 100%)
+                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)', #linear-gradient(135deg, #175491 0%, #0d355f 100%)
                     'boxShadow': '0 2px 10px rgba(0,0,0,0.1)',
                     'padding': '15px 0'
                 },
@@ -271,7 +271,7 @@ def create_mainpage(app, combined_df, stations_df):
                 dbc.Col(
                     html.P(f"Updated: {latest_str}", 
                           className="text-muted mb-2 mt-2",
-                          style={'paddingLeft': '1rem', 'color':'#175492'}
+                          style={'paddingLeft': '1rem', 'color':'#1034A6'}
                         ),
                     width=12   
                     )     
@@ -304,7 +304,7 @@ def create_mainpage(app, combined_df, stations_df):
                             ],
                             className="h-100",
                             style={
-                                'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)'
+                                'background': 'linear-gradient(to bottom, #ABE7FE 0%, #CDEAF6 33%, #DBF3FA 66%, #E1F3FB 100%)'
                             }
                         )
                     ],
@@ -337,7 +337,7 @@ def create_mainpage(app, combined_df, stations_df):
                             ],
                             className="h-100",
                             style={
-                                'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)'
+                                'background': 'linear-gradient(to bottom, #ABE7FE 0%, #CDEAF6 33%, #DBF3FA 66%, #E1F3FB 100%)'
                             }                                                      
                         )
                     ],
