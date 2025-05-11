@@ -106,9 +106,9 @@ def create_pollutant_barchart(df):
      # Các giá trị % Change - TÔ XANH nếu giảm mạnh (càng âm càng tốt)
     for _, row in merged.iterrows():
         if row['change_pct'] < -25:  # Giảm >25% => Tốt, tô xanh đậm
-            text = f"<span style='color:darkgreen; font-weight:bold'>↓ {row['change_pct']}%</span>"
+            text = f"<span style='color:HoneyDew  ; font-weight:bold'>↓ {row['change_pct']}%</span>"
         elif row['change_pct'] < 0:  # Giảm nhẹ (<25%) => Tô xanh nhạt
-            text = f"<span style='color:green'>{row['change_pct']}%</span>"
+            text = f"<span style='color:Azure  '>{row['change_pct']}%</span>"
         else:  # Tăng (giá trị dương) => Tô đỏ
             text = f"<span style='color:red'>{row['change_pct']}%</span>"
     
@@ -119,7 +119,7 @@ def create_pollutant_barchart(df):
             yref='y',
             text=text,
             showarrow=False,
-            font=dict(size=11, family="Arial"),
+            font=dict(size=11, family="Tahoma"),
             align='left'
         ))
     
@@ -127,7 +127,9 @@ def create_pollutant_barchart(df):
     fig.update_layout(
         annotations=annotations,
         margin=dict(l=50, r=170, t=40, b=40),
-        plot_bgcolor='white',
+        plot_bgcolor='rgba(0,0,0,0)',  # Transparent plot area
+        paper_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='white', family='Tahoma'),
         hovermode="closest",
         hoverlabel=dict(
             bgcolor="white",
@@ -135,22 +137,36 @@ def create_pollutant_barchart(df):
             font_family="Arial"
         ),
         yaxis=dict(
-            tickfont=dict(size=12),
+            showgrid=False,  # Add this to remove y-axis grid lines
+            showline=True,  # Keep y-axis line visible
+            linecolor='white',  # Set y-axis line color
+            tickfont=dict(size=12,color='white'),
             tickmode='array',
-            tickvals=list(range(len(merged)))),
-        xaxis=dict(range=[0, merged['log_value'].max()])
+            tickvals=list(range(len(merged)))
+        ),
+        xaxis=dict(
+            showgrid=False,  # Add this to remove x-axis grid lines
+            showline=True,  # Keep x-axis line visible
+            linecolor='white',  # Set x-axis line color
+            range=[0, merged['log_value'].max()]
+        )
     )
     
     # Customize hover template
     fig.update_traces(
+        marker=dict(
+            line=dict(width=1, color='white'),
+            opacity=0.5,
+            color='white'  # White bars
+        ),
         hovertemplate="%{customdata[0]}",
         hoverlabel=dict(
             bgcolor="white",
             font_size=12,
             namelength=-1  # Ngăn cắt ngắn text
         )
-    )   
-    
+    )
+
     return fig
 
 def create_main_map(df, stations_df):
@@ -173,20 +189,21 @@ def create_main_map(df, stations_df):
         zoom=10,
         mapbox_style='carto-positron'
     )
-    
+
     # Customize marker appearance
     fig.update_traces(
         marker=dict(
-            size=10,
-            color='#ff85a2',  # Use your pink color scheme
+            size=10,  
             opacity=0.8
         ),
-        hovertemplate="<b>%{hovertext}</b><extra></extra>"  # Simple hover template
+        hovertemplate="<b>%{hovertext}</b><extra></extra>"  
     )
     
     # Adjust map layout
     fig.update_layout(
-        margin={"r":0,"t":40,"l":0,"b":0},
+        plot_bgcolor='rgba(0,0,0,0)',  
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin={"r":10,"t":20,"l":10,"b":20},
         hoverlabel=dict(
             bgcolor="rgba(255, 255, 255, 0.9)",
             font_size=12,

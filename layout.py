@@ -1,5 +1,6 @@
 # flake8: noqa
 # pylint: skip-file
+# type: ignore
 
 import plotly.express as px
 import pandas as pd
@@ -25,12 +26,26 @@ def create_layout(app, combined_df, stations_df):
                     dbc.Col(
                         [
                             html.Div(
-                                [
+                                [   
+                                    dbc.Button(
+                                        html.I(className="fa fa-arrow-circle-left"),
+                                        href="/",
+                                        id="back-to-main-button",
+                                        style={
+                                            'fontSize': '24px',
+                                            'color': 'white',
+                                            'background': 'none',
+                                            'border': 'none',
+                                            'padding': '0',
+                                            'marginBottom': '15px',
+                                            'cursor': 'pointer',
+                                            'transition': 'all 0.3s ease'
+                                            },
+                                            className="back-button"
+                                        ),
                                     html.H1(
                                         [
-                                            html.Span("Welcome"),
-                                            html.Br(),
-                                            html.Span("to Group 4 dashboard!")
+                                            html.Span("Group 4")
                                         ],
                                         className='sidebar-title'
                                     ),
@@ -43,15 +58,19 @@ def create_layout(app, combined_df, stations_df):
                                     html.Ul(
                                         [
                                             html.Li(
-                                                html.A("Annual pollution trends (2001–2018)", href="#section-1", className='sidebar-link'),
+                                                html.A("1. How has pollution in Madrid evolved between 2001 and 2018?", href="#section-1", className='sidebar-link'),
                                                 className='sidebar-item'
                                             ),
                                             html.Li(
-                                                html.A("Station-wise pollution map for 2018", href="#section-2", className='sidebar-link'),
+                                                html.A("2. Which are the areas of Madrid where pollution is highest / lowest in 2018?", href="#section-2", className='sidebar-link'),
                                                 className='sidebar-item'
                                             ),
                                             html.Li(
-                                                html.A("Station pollution change between 2008 and 2018", href="#section-3", className='sidebar-link'),
+                                                html.A("3. Which are the areas of Madrid where pollution has improved / worsened more between 2008 and 2018?", href="#section-3", className='sidebar-link'),
+                                                className='sidebar-item'
+                                            ), 
+                                            html.Li(
+                                                html.A("4. How have the different measurements of pollution evolved between 2008 and 2018?", href="#section-1", className='sidebar-link'),
                                                 className='sidebar-item'
                                             )
                                         ],
@@ -62,7 +81,7 @@ def create_layout(app, combined_df, stations_df):
                                 style={
                                     "height": "100vh",
                                     "padding": "2rem",
-                                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)',
                                     "color": "white",
                                     "overflowY": "auto"
                                 }
@@ -174,7 +193,7 @@ def create_layout(app, combined_df, stations_df):
                                     'height': '100vh',
                                     'overflowY': 'auto',
                                     'padding': '2rem',
-                                    'backgroundColor': '#f8f9fa',
+                                    'backgroundColor': 'rgba(0, 0, 0, 0)',
                                     'scrollBehavior': 'smooth'  # enables smooth scrolling!
                                 }
                             )
@@ -198,25 +217,48 @@ def create_mainpage(app, combined_df, stations_df):
     map_fig = create_main_map(combined_df, stations_df)
 
     return dbc.Container(
-        fluid=True,
+        fluid=True,  
         style={'backgroundColor': '#f8f9fa', 'padding': '0', 'margin': '0', 'height': '100vh', 'overflow': 'hidden'},
         children=[
             # Header
             dbc.Navbar(
                 [
                     dbc.Container(
+                        [
                             html.H1("Welcome to Group 4 Dashboard", 
                                 style={
-                                    'color': '#ffffff',  # Dark text for light background
-                                    'margin': '0',
-                                    'textShadow': '0 1px 1px rgba(255,255,255,0.5)'
+                                    'color': '#175492',  # Dark text for light background
+                                    'margin': '10px',
+                                    'textShadow': '0 1px 1px rgba(255,255,255,0.5)',
+                                    'font-family': 'Tahoma'
                                     }),
+                            dbc.Button(
+                                html.I(
+                                    className="fa fa-arrow-circle-right"),
+                                    href="/detail",
+                                    color="#87ceeb", 
+                                    style={
+                                        'fontSize': '48px',
+                                        'color': '#87ceeb',
+                                        'cursor': 'pointer',
+                                        'marginLeft': 'auto',
+                                        'marginRight': '10px',
+                                        'background': 'none',
+                                        'border': 'none',
+                                        'padding': '0',
+                                        'transition': 'all 0.3s ease',  # Smooth transition
+                                        'transform': 'scale(1)',  # Base state
+                                        'opacity': '0.9'  # Slightly transparent by default
+                                    },
+                                    className="p-0 smooth-arrow"
+                            )
+                        ],
                         fluid=True,
                         style={'display': 'flex', 'alignItems': 'center'}
                     )
                 ],
                 style={
-                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                    'background': 'ffffff', #linear-gradient(135deg, #175491 0%, #0d355f 100%)
                     'boxShadow': '0 2px 10px rgba(0,0,0,0.1)',
                     'padding': '15px 0'
                 },
@@ -225,22 +267,15 @@ def create_mainpage(app, combined_df, stations_df):
             ),
             
             # Update time
-            dbc.Row([
+            dbc.Row(
                 dbc.Col(
                     html.P(f"Updated: {latest_str}", 
                           className="text-muted mb-2 mt-2",
-                          style={'paddingLeft': '1rem'}),
-                    width=12
-                ),
-                
-                dbc.Col(
-                    dbc.Button("Explore Detailed Analysis",
-                        href="/detail",
-                            color="#0b559e",  # Changed to primary for better contrast
-                            className="ms-auto")
-                    )
-                ]           
-            ),       
+                          style={'paddingLeft': '1rem', 'color':'#175492'}
+                        ),
+                    width=12   
+                    )     
+                ),       
             # Main content
             dbc.Row([
                 # Left column - Bar chart (wider)
@@ -252,7 +287,7 @@ def create_mainpage(app, combined_df, stations_df):
                                     html.H4("Average Pollutant Levels in 2018", 
                                            className="mb-0"),
                                 style = {
-                                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)',
                                     'color': 'white'
                                 }                                    
                                 ),
@@ -262,19 +297,19 @@ def create_mainpage(app, combined_df, stations_df):
                                         dcc.Graph(
                                             figure=bar_fig,
                                             config={'displayModeBar': False},
-                                            style={'height': '500px'}
+                                            style={'height': '500px', 'background': 'rgba(0,0,0,0)', 'padding':'0','border':'none'}
                                         ),
                                     ]
                                 )
                             ],
                             className="h-100",
                             style={
-                                'background': 'linear-gradient(135deg, #1754911a 0%, #0d355f1a 100%)'
+                                'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)'
                             }
                         )
                     ],
                     md=6,  # Wider column for chart
-                    style={'paddingRight': '10px'}
+                    style={'paddingRight': '10px', 'background': 'transparent'}
                 ),
                 
                 # Right column - Map (narrower)
@@ -286,7 +321,7 @@ def create_mainpage(app, combined_df, stations_df):
                                     html.H4("Station Pollution Map 2018", 
                                            className="mb-0"),
                                 style = {
-                                    'background': 'linear-gradient(135deg, #175491 0%, #0d355f 100%)',
+                                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)',
                                     'color': 'white'
                                 }                                   
                                 ),
@@ -302,7 +337,7 @@ def create_mainpage(app, combined_df, stations_df):
                             ],
                             className="h-100",
                             style={
-                                'background': 'linear-gradient(135deg, #1754911a 0%, #0d355f1a 100%)'
+                                'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)'
                             }                                                      
                         )
                     ],

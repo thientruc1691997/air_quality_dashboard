@@ -51,6 +51,13 @@ def create_station_map_figure_with_custom_hover(df, stations_df):
     )
 
     fig.update_layout(
+        title = {
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         hoverlabel=dict(
             bgcolor="white",
             font_size=14,

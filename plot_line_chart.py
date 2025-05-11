@@ -45,8 +45,18 @@ def create_pollution_trend_figure_with_filters(df, selected_years, selected_poll
     )
 
     fig.update_layout(
-        plot_bgcolor='white',
+        title = {
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         yaxis_title='Log(1 + Concentration, μg/m³)'
     )
+    
+        # fig.update_layout(
+        # plot_bgcolor='rgba(0,0,0,0)',  
+        # paper_bgcolor='rgba(0,0,0,0)',
 
     return fig
