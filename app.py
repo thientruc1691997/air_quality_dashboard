@@ -10,7 +10,7 @@ import os
 
 
 # Load all data once and share across components
-base_path = '/Users/nguyentruc/Desktop/UHasselt/Data Visualization/Project/VDS2425_Madrid/Dashboard/data'
+base_path = 'data'
 years = range(2001, 2019)
 dfs = []
 
