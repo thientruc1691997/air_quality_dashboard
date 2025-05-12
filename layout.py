@@ -58,19 +58,19 @@ def create_layout(app, combined_df, stations_df):
                                     html.Ul(
                                         [
                                             html.Li(
-                                                html.A("1. How has pollution in Madrid evolved between 2001 and 2018?", href="#section-1", className='sidebar-link'),
+                                                html.A("How has pollution in Madrid evolved between 2001 and 2018?", href="#section-1", className='sidebar-link'),
                                                 className='sidebar-item'
                                             ),
                                             html.Li(
-                                                html.A("2. Which are the areas of Madrid where pollution is highest / lowest in 2018?", href="#section-2", className='sidebar-link'),
+                                                html.A("Which are the areas of Madrid where pollution is highest / lowest in 2018?", href="#section-2", className='sidebar-link'),
                                                 className='sidebar-item'
                                             ),
                                             html.Li(
-                                                html.A("3. Which are the areas of Madrid where pollution has improved / worsened more between 2008 and 2018?", href="#section-3", className='sidebar-link'),
+                                                html.A("Which are the areas of Madrid where pollution has improved / worsened more between 2008 and 2018?", href="#section-3", className='sidebar-link'),
                                                 className='sidebar-item'
                                             ), 
                                             html.Li(
-                                                html.A("4. How have the different measurements of pollution evolved between 2008 and 2018?", href="#section-1", className='sidebar-link'),
+                                                html.A("How have the different measurements of pollution evolved between 2008 and 2018?", href="#section-1", className='sidebar-link'),
                                                 className='sidebar-item'
                                             )
                                         ],
@@ -81,8 +81,8 @@ def create_layout(app, combined_df, stations_df):
                                 style={
                                     "height": "100vh",
                                     "padding": "2rem",
-                                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)',
-                                    "color": "white",
+                                    'background': 'linear-gradient(to right, #FED8F7 0%, #C4DDFE 100%)',
+                                    "color": "#7f8a9c",
                                     "overflowY": "auto"
                                 }
                             )
@@ -153,7 +153,7 @@ def create_layout(app, combined_df, stations_df):
                                     html.Div(id='section-2'),
                                     dbc.Card(
                                         [
-                                            dbc.CardHeader(html.H3('2. Station-wise Pollution Map (2018)', className='section-title')),
+                                            dbc.CardHeader(html.H3('2. Pollution Map by Stations (2018)', className='section-title')),
                                             dbc.CardBody(
                                                 [
                                                     dcc.Graph(
@@ -173,7 +173,7 @@ def create_layout(app, combined_df, stations_df):
                                     html.Div(id='section-3'),
                                     dbc.Card(
                                         [
-                                            dbc.CardHeader(html.H3('3. Station Change Between 2008 and 2018', className='section-title')),
+                                            dbc.CardHeader(html.H3('3. Pollution Change Between 2008 and 2018 by Stations', className='section-title')),
                                             dbc.CardBody(
                                                 [
                                                     dcc.Graph(
@@ -227,19 +227,19 @@ def create_mainpage(app, combined_df, stations_df):
                         [
                             html.H1("Welcome to Group 4 Dashboard", 
                                 style={
-                                    'color': 'white',  # Dark text for light background
+                                    'color': '#7f8a9c',  # Dark text for light background
                                     'margin': '10px',
-                                    'textShadow': '0 1px 1px rgba(255,255,255,0.5)',
+                                    # 'textShadow': '0 1px 1px rgba(255,255,255,0.5)',
                                     'font-family': 'Tahoma'
                                     }),
                             dbc.Button(
                                 html.I(
                                     className="fa fa-arrow-circle-right"),
                                     href="/detail",
-                                    color="#87ceeb", 
+                                    color="white", 
                                     style={
-                                        'fontSize': '48px',
-                                        'color': '#87ceeb',
+                                        'fontSize': '35px',
+                                        'color': 'white',
                                         'cursor': 'pointer',
                                         'marginLeft': 'auto',
                                         'marginRight': '10px',
@@ -258,7 +258,7 @@ def create_mainpage(app, combined_df, stations_df):
                     )
                 ],
                 style={
-                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)', #linear-gradient(135deg, #175491 0%, #0d355f 100%)
+                    'background': 'linear-gradient(to right, #FED8F7 0%, #C4DDFE 100%)', #linear-gradient(135deg, #175491 0%, #0d355f 100%)
                     'boxShadow': '0 2px 10px rgba(0,0,0,0.1)',
                     'padding': '15px 0'
                 },
@@ -271,7 +271,7 @@ def create_mainpage(app, combined_df, stations_df):
                 dbc.Col(
                     html.P(f"Updated: {latest_str}", 
                           className="text-muted mb-2 mt-2",
-                          style={'paddingLeft': '1rem', 'color':'#1034A6'}
+                          style={'paddingLeft': '1rem', 'color':'#7f8a9c'}
                         ),
                     width=12   
                     )     
@@ -287,8 +287,8 @@ def create_mainpage(app, combined_df, stations_df):
                                     html.H4("Average Pollutant Levels in 2018", 
                                            className="mb-0"),
                                 style = {
-                                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)',
-                                    'color': 'white'
+                                    'background': 'linear-gradient(to right, #CEDBFB 0%, #F8DBF6 100%)',
+                                    'color': '#7f8a9c'
                                 }                                    
                                 ),
 
@@ -304,7 +304,7 @@ def create_mainpage(app, combined_df, stations_df):
                             ],
                             className="h-100",
                             style={
-                                'background': 'linear-gradient(to bottom, #ABE7FE 0%, #CDEAF6 33%, #DBF3FA 66%, #E1F3FB 100%)'
+                                'background': 'linear-gradient(to right, #CEDBFB 0%, #F8DBF6 100%)'
                             }
                         )
                     ],
@@ -321,8 +321,8 @@ def create_mainpage(app, combined_df, stations_df):
                                     html.H4("Station Pollution Map 2018", 
                                            className="mb-0"),
                                 style = {
-                                    'background': 'linear-gradient(to bottom, #62cff4 0%, #2c67f2 100%)',
-                                    'color': 'white'
+                                    'background': 'linear-gradient(to left, #CEDBFB 0%, #F8DBF6 100%)',
+                                    'color': '#7f8a9c'
                                 }                                   
                                 ),
                                 dbc.CardBody(
@@ -337,7 +337,7 @@ def create_mainpage(app, combined_df, stations_df):
                             ],
                             className="h-100",
                             style={
-                                'background': 'linear-gradient(to bottom, #ABE7FE 0%, #CDEAF6 33%, #DBF3FA 66%, #E1F3FB 100%)'
+                                'background': 'linear-gradient(to left, #CEDBFB 0%, #F8DBF6 100%)'
                             }                                                      
                         )
                     ],

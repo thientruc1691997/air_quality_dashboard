@@ -9,11 +9,6 @@ def create_pollution_trend_figure_with_filters(df, selected_years, selected_poll
     # Filter by selected years
     df_filtered = df[(df['year'] >= selected_years[0]) & (df['year'] <= selected_years[1])].copy()
 
-    # Convert mg/m³ columns to μg/m³
-    mg_cols = ['CO', 'CH4', 'NMHC','TCH']
-    for col in mg_cols:
-        if col in df_filtered.columns:
-            df_filtered[col] = pd.to_numeric(df_filtered[col], errors='coerce') * 1000  # mg → μg
 
     # Compute Overall Average across all pollutants (after conversion)
     pollutant_cols = [col for col in df_filtered.columns if col not in ['year', 'station', 'date']]
@@ -37,11 +32,12 @@ def create_pollution_trend_figure_with_filters(df, selected_years, selected_poll
         markers=True,
         title=f'Average Annual Pollution in Madrid (log scale) ({selected_years[0]}–{selected_years[1]})',
         hover_data={
-            'Average Concentration': ':.2f',
-            'Log Concentration': ':.2f',
             'year': True,
-            'Pollutant': True
-        }
+            'Pollutant': True,
+            'Average Concentration': ':.2f',
+            'Log Concentration': ':.2f'
+        },
+        custom_data=['Pollutant','Average Concentration', 'Log Concentration']
     )
 
     fig.update_layout(
@@ -53,6 +49,16 @@ def create_pollution_trend_figure_with_filters(df, selected_years, selected_poll
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         yaxis_title='Log(1 + Concentration, μg/m³)'
+    )
+    
+    fig.update_traces(
+        hovertemplate=(
+            "<b>Year:</b> %{x}<br>"
+            "<b>Pollutant:</b> %{customdata[0]}<br>"
+            "<b>Average Concentration:</b> %{customdata[1]:.2f} μg/m³<br>"
+            "<b>Log Concentration:</b> %{customdata[2]:.2f} μg/m³<br>"
+            "<extra></extra>"
+        )
     )
     
         # fig.update_layout(

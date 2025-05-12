@@ -1,5 +1,6 @@
 # flake8: noqa
 # pylint: skip-file
+import pandas as pd
 
 #H1
 def compute_annual_averages(df, pollutants):
@@ -10,7 +11,19 @@ def compute_annual_averages(df, pollutants):
 
 #H2
 def compute_station_averages(df, year, pollutants):
-    df_year = df[df['year'] == year]
-    station_avg = df_year.groupby('station')[pollutants].mean().reset_index()
-    station_avg['Overall_Avg'] = station_avg[pollutants].mean(axis=1)
-    return station_avg
+    filtered = df[df['year'] == year].copy()
+
+    # # Convert mg/m³ to μg/m³
+    # mg_cols = ['CO', 'CH4', 'NMHC', 'TCH']
+    # for col in mg_cols:
+    #     if col in filtered.columns:
+    #         filtered[col] = pd.to_numeric(filtered[col], errors='coerce') * 1000
+
+    # Compute mean per station
+    result = filtered.groupby('station')[pollutants].mean().reset_index()
+
+    # Compute overall average across all selected pollutants
+    result['Overall_Avg'] = result[pollutants].mean(axis=1)
+
+    return result
+

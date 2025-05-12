@@ -203,7 +203,7 @@ def create_main_map(df, stations_df):
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',  
         paper_bgcolor='rgba(0,0,0,0)',
-        margin={"r":10,"t":20,"l":10,"b":20},
+        margin={"r":0,"t":0,"l":0,"b":0},
         hoverlabel=dict(
             bgcolor="rgba(255, 255, 255, 0.9)",
             font_size=12,

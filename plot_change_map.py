@@ -28,13 +28,25 @@ def create_station_change_bar_figure(df, stations_df):
         x='name', y='Change',
         color='Change', color_continuous_scale='RdYlGn_r',
         hover_data={
+            'name': True,
             'Overall_2008': ':.2f',
             'Overall_2018': ':.2f',
             'Change': ':.2f'
         },
+        custom_data=['Overall_2008', 'Overall_2018','Change'],
         title='Change in Average Pollution per Station (2008–2018)'
     )
-
+    
+    fig.update_traces(
+        hovertemplate=(
+            "<b>Station:</b> %{x}<br>"
+            "<b>2008 Average:</b> %{customdata[0]:.2f} μg/m³<br>"
+            "<b>2018 Average:</b> %{customdata[1]:.2f} μg/m³<br>"
+            "<b>Change (2018-2008):</b> %{customdata[2]:.2f} μg/m³<br>"
+            "<extra></extra>"
+        )
+    )
+    
     fig.update_layout(
         title = {
             'x': 0.5,

@@ -30,7 +30,7 @@
 }
 
 .sidebar-link {
-    color: #DBF3FA;
+    color: #7f8a9c;
     text-decoration: none;
     cursor: pointer;
 }
@@ -50,16 +50,12 @@ html {
 .section-card {
     border-radius: 10px;
     box-shadow: 0 4px 6px #0000001a;
-    background: linear-gradient(to bottom, 
-    #ABE7FE 0%, 
-    #CDEAF6 33%, 
-    #DBF3FA 66%, 
-    #E1F3FB 100%);;
+    background: linear-gradient(to right, #CEDBFB 0%, #F8DBF6 100%);
 }
 
 .section-title {
     margin: 0;
-    color: #0085a3;
+    color: #7f8a9c;
     
 }
 
@@ -67,14 +63,14 @@ html {
     font-weight: 600;
     margin-bottom: 0.5rem;
     display: block;
-    color: #2596af;
+    color: #7f8a9c;
 }
 
 .plot-container {
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0);
-    padding: 10px;
-    margin-top: 1rem;
+    padding: 0px;
+    margin-top: 0rem;
 }
 
 .pollutant-dropdown {
