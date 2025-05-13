@@ -33,8 +33,7 @@ def create_station_change_bar_figure(df, stations_df):
             'Overall_2018': ':.2f',
             'Change': ':.2f'
         },
-        custom_data=['Overall_2008', 'Overall_2018','Change'],
-        title='Change in Average Pollution per Station (2008–2018)'
+        custom_data=['Overall_2008', 'Overall_2018','Change']
     )
     
     fig.update_traces(
@@ -48,11 +47,6 @@ def create_station_change_bar_figure(df, stations_df):
     )
     
     fig.update_layout(
-        title = {
-            'x': 0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'
-        },
         xaxis_title='Station', 
         yaxis_title='Change (2018 - 2008)', 
         xaxis_tickangle=45, 
