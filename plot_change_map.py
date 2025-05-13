@@ -48,7 +48,7 @@ def create_station_change_bar_figure(df, stations_df):
     
     fig.update_layout(
         xaxis_title='Station', 
-        yaxis_title='Change (2018 - 2008)', 
+        yaxis_title='Pollution Change (2008 - 2018)', 
         xaxis_tickangle=45, 
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)')
