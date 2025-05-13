@@ -9,6 +9,11 @@ def create_pollution_trend_figure_with_filters(df, selected_years, selected_poll
     # Filter by selected years
     df_filtered = df[(df['year'] >= selected_years[0]) & (df['year'] <= selected_years[1])].copy()
 
+        # Convert mg/m³ columns to μg/m³
+    mg_cols = ['CO', 'CH4', 'NMHC','TCH']
+    for col in mg_cols:
+        if col in df_filtered.columns:
+            df_filtered[col] = pd.to_numeric(df_filtered[col], errors='coerce') * 1000  # mg → μg
 
     # Compute Overall Average across all pollutants (after conversion)
     pollutant_cols = [col for col in df_filtered.columns if col not in ['year', 'station', 'date']]
